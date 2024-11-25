@@ -1,0 +1,36 @@
+clc;
+clear;
+close all;
+
+fs = 1000;  
+n = 4;     
+f_low = 100;  
+f_high = 300; 
+
+Wn_low = f_low / (fs/2);
+Wn_high = f_high / (fs/2);
+Wn_band = [Wn_low, Wn_high];
+
+% Butterworth Low-pass Filter
+[b_butter_lp, a_butter_lp] = butter(n, Wn_low, 'low');
+figure;
+freqz(b_butter_lp, a_butter_lp, 1024, fs);
+title('Butterworth Low-pass Filter');
+
+% Butterworth High-pass Filter
+[b_butter_hp, a_butter_hp] = butter(n, Wn_high, 'high');
+figure;
+freqz(b_butter_hp, a_butter_hp, 1024, fs);
+title('Butterworth High-pass Filter');
+
+% Butterworth Band-pass Filter
+[b_butter_bp, a_butter_bp] = butter(n, Wn_band, 'bandpass');
+figure;
+freqz(b_butter_bp, a_butter_bp, 1024, fs);
+title('Butterworth Band-pass Filter');
+
+% Butterworth Band-stop Filter
+[b_butter_bs, a_butter_bs] = butter(n, Wn_band, 'stop');
+figure;
+freqz(b_butter_bs, a_butter_bs, 1024, fs);
+title('Butterworth Band-stop Filter');

@@ -1,0 +1,46 @@
+n = input('Enter the N value: ');
+t = -(n-1):1:n-1;
+% Unit Impulse
+y_impulse = [zeros(1,n-1), 1, zeros(1,n-1)];
+subplot(3,2,1);
+stem(t, y_impulse, 'r');
+ylabel('Amplitude');
+xlabel('n');
+title('Unit Impulse');
+% Unit Step
+y_step = [zeros(1,n-1), ones(1,n)];
+subplot(3,2,2);
+stem(t, y_step, 'g');
+ylabel('Amplitude');
+xlabel('n');
+title('Unit Step');
+% Unit Ramp
+y_ramp = max(t, 0);
+subplot(3,2,3);
+stem(t, y_ramp, 'b');
+ylabel('Amplitude');
+xlabel('n');
+title('Unit Ramp');
+% Exponential
+alpha = 2;
+y_exponential = max(alpha .^ t, 0);
+subplot(3,2,4);
+stem(t, y_exponential, 'r');
+ylabel('Amplitude');
+xlabel('n');
+title('Exponential');
+% Sine
+f = 0.1; % Frequency in Hz
+y_sine = sin(2 * pi * f * t);
+subplot(3,2,5);
+stem(t, y_sine, 'g');
+ylabel('Amplitude');
+xlabel('n');
+title('Sine');
+% Cosine
+y_cosine = cos(2 * pi * f * t);
+subplot(3,2,6);
+stem(t, y_cosine, 'g');
+ylabel('Amplitude');
+xlabel('n');
+title('Cosine');

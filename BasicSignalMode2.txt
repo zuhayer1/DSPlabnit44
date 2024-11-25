@@ -1,0 +1,53 @@
+clc;
+clear all;
+close all;
+
+% Parameters
+alpha = exp(1);  % Exponential parameter (e)
+f = 0.1;         % Frequency for sine and cosine
+signals = {'Unit Impulse', 'Unit Step', 'Unit Ramp', 'Exponential', 'Sine', 'Cosine'};
+n = input('Enter the N value: ');  % User input for N
+t_cont = linspace(-2, n-1, 1000);  % Continuous time vector for analog signals
+
+for i = 1:6
+    switch i
+        case 1  % Unit Impulse (using a narrow Gaussian approximation for analog)
+            t_disc = -2:1:2;
+            y_disc = [zeros(1,2), 1, zeros(1,2)];
+            y_cont = exp(-t_cont.^2 / (2*0.01^2));  % Narrow Gaussian centered at 0
+        case 2  % Unit Step
+            t_disc = 0:1:n-1;
+            y_disc = ones(1, n);
+            y_cont = double(t_cont >= 0);
+        case 3  % Unit Ramp
+            t_disc = 0:1:n-1;
+            y_disc = t_disc;
+            y_cont = max(0, t_cont);
+        case 4  % Exponential
+            t_disc = 0:1:n-1;
+            y_disc = alpha .^ t_disc;
+            y_cont = alpha .^ t_cont;
+        case 5  % Sine
+            t_disc = 0:1:n-1;
+            y_disc = sin(2 * pi * f * t_disc);
+            y_cont = sin(2 * pi * f * t_cont);
+        case 6  % Cosine
+            t_disc = 0:1:n-1;
+            y_disc = cos(2 * pi * f * t_disc);
+            y_cont = cos(2 * pi * f * t_cont);
+    end
+    
+    % Plotting analog signal on the left side
+    subplot(6, 2, 2*i-1);  % Subplots for analog signals (1, 3, 5, 7, 9, 11)
+    plot(t_cont, y_cont, 'r');
+    ylabel('Amplitude');
+    xlabel('n');
+    title([signals{i} ' (Analog)']);
+    
+    % Plotting discrete signal on the right side
+    subplot(6, 2, 2*i);  % Subplots for discrete signals (2, 4, 6, 8, 10, 12)
+    stem(t_disc, y_disc, 'b');
+    ylabel('Amplitude');
+    xlabel('n');
+    title([signals{i} ' (Discrete)']);
+end

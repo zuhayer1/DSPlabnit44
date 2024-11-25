@@ -1,0 +1,17 @@
+x = [1 4 5 7];
+X = zeros(1, 4);
+W = exp(-2j * pi * (0:3) / 4);
+
+X_even = [x(1) + x(3), x(1) - x(3)];
+X_odd = [x(2) + x(4), (x(2) - x(4)) * W(2)];
+
+X(1) = X_even(1) + X_odd(1); % X[0]
+X(2) = X_even(2) + X_odd(2); % X[1]
+X(3) = X_even(1) - X_odd(1); % X[2]
+X(4) = X_even(2) - X_odd(2); % X[3]
+
+disp('Input sequence:');
+disp(x);
+
+disp('4-point FFT of the sequence:');
+disp(X);

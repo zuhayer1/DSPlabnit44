@@ -1,0 +1,37 @@
+% Define input sequence (8 points)
+x = [1 3 5 7 2 6 3 8];
+N = length(x); % N = 8
+X = zeros(1, N); % Initialize the output array
+W = exp(-2j * pi * (0:(N/2)-1) / N); % Twiddle factors for N=8
+
+% Split the sequence into even and odd indices
+x_even = x(1:2:end); % Even-indexed elements
+x_odd = x(2:2:end);  % Odd-indexed elements
+
+% Perform 4-point FFT on even and odd parts
+W_4 = exp(-2j * pi * (0:3) / 4); % Twiddle factors for 4-point FFT
+X_even = [
+    x_even(1) + x_even(3), 
+    x_even(1) - x_even(3), 
+    (x_even(2) + x_even(4)) * W_4(2), 
+    (x_even(2) - x_even(4)) * W_4(3)
+];
+X_odd = [
+    x_odd(1) + x_odd(3), 
+    x_odd(1) - x_odd(3), 
+    (x_odd(2) + x_odd(4)) * W_4(2), 
+    (x_odd(2) - x_odd(4)) * W_4(3)
+];
+
+% Combine results using twiddle factors
+for k = 1:N/2
+    X(k) = X_even(k) + W(k) * X_odd(k);
+    X(k + N/2) = X_even(k) - W(k) * X_odd(k);
+end
+
+% Display results
+disp('Input sequence:');
+disp(x);
+
+disp('8-point FFT of the sequence:');
+disp(X);

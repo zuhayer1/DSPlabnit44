@@ -1,0 +1,34 @@
+n1 = input('Length of the original signal: ');
+x = zeros(1, n1);
+disp('Elements of the original signal:');
+for i = 1:n1
+    x(i) = input('');
+end
+n_x = 0:length(x)-1;
+L = input('Upsampling factor: ');
+x_up = zeros(1, L*n1);
+for i = 1:n1
+    x_up((i-1)*L+1) = x(i); 
+end
+n_up = 0:length(x_up)-1;
+M = input('Downsampling factor: ');
+x_down = x(1:M:end);
+n_down = 0:length(x_down)-1;
+subplot(3, 1, 1);
+stem(n_x, x, 'filled');
+title('Original Sequence x[n]');
+xlabel('n');
+ylabel('x[n]');
+axis([min(n_x)-0.5, max(n_x)+0.5, min(x)-1, max(x)+1]);
+subplot(3, 1, 2);
+stem(n_up, x_up, 'filled');
+title(['Upsampled Sequence x_{up}[n] (L = ', num2str(L), ')']);
+xlabel('n');
+ylabel('x_{up}[n]');
+axis([min(n_up)-0.5, max(n_up)+0.5, min(x_up)-1, max(x_up)+1]);
+subplot(3, 1, 3);
+stem(n_down, x_down, 'filled');
+title(['Downsampled Sequence x_{down}[n] (M = ', num2str(M), ')']);
+xlabel('n');
+ylabel('x_{down}[n]');
+axis([min(n_down)-0.5, max(n_down)+0.5, min(x_down)-1, max(x_down)+1]);

@@ -1,0 +1,26 @@
+% Prompt user for inputs
+a = input('Enter the value for a: ');
+b = input('Enter the value for b: ');
+Y0 = input('Enter the initial value Y0: ');
+n_iterations = input('Enter the number of iterations: ');
+
+% Preallocate array for efficiency
+Y = zeros(1, n_iterations + 1);
+Y(1) = Y0;
+
+% Compute the sequence
+for n = 1:n_iterations
+    Y(n + 1) = a * Y(n) + b;
+end
+
+% Display all Y values
+disp('The Y values are:');
+disp(Y);
+
+% Plot the results
+figure;
+plot(0:n_iterations, Y, '-o');
+title('Plot of Y_{n+1} = a \cdot Y_n + b');
+xlabel('n');
+ylabel('Y_n');
+grid on;

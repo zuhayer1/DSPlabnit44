@@ -1,0 +1,62 @@
+clc;
+clear;
+close all;
+
+fs = 1000;  
+n = 4;     
+rp = 1;     
+rs = 20;    
+f_low = 100;  
+f_high = 300; 
+
+Wn_low = f_low / (fs/2);
+Wn_high = f_high / (fs/2);
+Wn_band = [Wn_low, Wn_high];
+
+% Chebyshev Type I Low-pass Filter
+[b_cheby1_lp, a_cheby1_lp] = cheby1(n, rp, Wn_low, 'low');
+figure;
+freqz(b_cheby1_lp, a_cheby1_lp, 1024, fs);
+title('Chebyshev Type I Low-pass Filter');
+
+% Chebyshev Type I High-pass Filter
+[b_cheby1_hp, a_cheby1_hp] = cheby1(n, rp, Wn_high, 'high');
+figure;
+freqz(b_cheby1_hp, a_cheby1_hp, 1024, fs);
+title('Chebyshev Type I High-pass Filter');
+
+% Chebyshev Type I Band-pass Filter
+[b_cheby1_bp, a_cheby1_bp] = cheby1(n, rp, Wn_band, 'bandpass');
+figure;
+freqz(b_cheby1_bp, a_cheby1_bp, 1024, fs);
+title('Chebyshev Type I Band-pass Filter');
+
+% Chebyshev Type I Band-stop Filter
+[b_cheby1_bs, a_cheby1_bs] = cheby1(n, rp, Wn_band, 'stop');
+figure;
+freqz(b_cheby1_bs, a_cheby1_bs, 1024, fs);
+title('Chebyshev Type I Band-stop Filter');
+
+% Chebyshev Type II Low-pass Filter
+[b_cheby2_lp, a_cheby2_lp] = cheby2(n, rs, Wn_low, 'low');
+figure;
+freqz(b_cheby2_lp, a_cheby2_lp, 1024, fs);
+title('Chebyshev Type II Low-pass Filter');
+
+% Chebyshev Type II High-pass Filter
+[b_cheby2_hp, a_cheby2_hp] = cheby2(n, rs, Wn_high, 'high');
+figure;
+freqz(b_cheby2_hp, a_cheby2_hp, 1024, fs);
+title('Chebyshev Type II High-pass Filter');
+
+% Chebyshev Type II Band-pass Filter
+[b_cheby2_bp, a_cheby2_bp] = cheby2(n, rs, Wn_band, 'bandpass');
+figure;
+freqz(b_cheby2_bp, a_cheby2_bp, 1024, fs);
+title('Chebyshev Type II Band-pass Filter');
+
+% Chebyshev Type II Band-stop Filter
+[b_cheby2_bs, a_cheby2_bs] = cheby2(n, rs, Wn_band, 'stop');
+figure;
+freqz(b_cheby2_bs, a_cheby2_bs, 1024, fs);
+title('Chebyshev Type II Band-stop Filter');

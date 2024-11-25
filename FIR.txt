@@ -1,0 +1,42 @@
+clc;
+clear;
+% Filter order
+filterOrder = 50;
+% Predefined cutoff frequencies (normalized)
+lowCutoff = 0.3;     % Lower cutoff for BPF and BSF (normalized, 0 to 1)
+highCutoff = 0.7;    % Upper cutoff for BPF and BSF (normalized, 0 to 1)
+cutoffFreq = 0.4;    % Cutoff frequency for LPF/HPF (normalized, 0 to 1)
+% Define the windows
+windows = {'Hamming', 'Hanning', 'Blackman'};
+windowFunctions = {@hamming, @hanning, @blackman};
+% Define filter types
+filterTypes = {'Low-pass Filter', 'High-pass Filter', 'Band-pass Filter', 'Band-stop Filter'};
+filterDesigns = {'low', 'high', 'bandpass', 'stop'};
+filterCutoffs = {cutoffFreq, cutoffFreq, [lowCutoff, highCutoff], [lowCutoff, highCutoff]};
+for i = 1:length(windows)
+    figure('Name', windows{i}, 'NumberTitle', 'off');
+    for j = 1:length(filterTypes)
+        % Generate window
+        win = windowFunctions{i}(filterOrder + 1);
+        % Design filter
+        b = fir1(filterOrder, filterCutoffs{j}, filterDesigns{j}, win);       
+        % Calculate frequency response
+        f = linspace(0, 1, 2000);    % Normalized frequency range from 0 to 1
+        [h, w] = freqz(b, 1, f*pi);        
+        % Plotting magnitude response
+        subplot(4, 2, 2*j-1);
+        plot(f, 20*log10(abs(h)));
+        title([windows{i} ' - ' filterTypes{j} ' Magnitude Response']);
+        xlabel('Normalized Frequency');
+        ylabel('Magnitude (dB)');
+        grid on;        
+        % Plotting phase response
+        subplot(4, 2, 2*j);
+        plot(f, angle(h));
+        title([windows{i} ' - ' filterTypes{j} ' Phase Response']);
+        xlabel('Normalized Frequency');
+        ylabel('Phase (radians)');
+        grid on;
+    end
+end
+disp('Filter simulation complete.');

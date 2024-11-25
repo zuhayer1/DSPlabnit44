@@ -1,0 +1,49 @@
+n1 = input('Length of the first signal: ');
+x = zeros(1, n1);
+disp('Elements of the first signal:');
+for i = 1:n1
+    x(i) = input('');
+end
+n2 = input('Length of the second signal: ');
+h = zeros(1, n2);
+disp('Elements of the second signal:');
+for i = 1:n2
+    h(i) = input('');
+end
+n3 = max(n1, n2);
+x = [x, zeros(1, n3 - n1)];
+h = [h, zeros(1, n3 - n2)];
+n_x = 0:n3-1;
+n_h = 0:n3-1;
+y = zeros(1, n3);
+for i = 1:n3
+    for j = 1:n3
+        y(i) = y(i) + x(j) * h(mod(i-j, n3) + 1);
+    end
+end
+n_y = 0:length(y)-1;
+subplot(4, 1, 1);
+stem(n_x, x, 'filled');
+title('Input Sequence x[n]');
+xlabel('n');
+ylabel('x[n]');
+axis([min(n_x)-0.5, max(n_x)+0.5, min(x)-1, max(x)+1]);
+subplot(4, 1, 2);
+stem(n_h, h, 'filled');
+title('Impulse Response h[n]');
+xlabel('n');
+ylabel('h[n]');
+axis([min(n_h)-0.5, max(n_h)+0.5, min(h)-1, max(h)+1]);
+subplot(4, 1, 3);
+stem(n_y, y, 'filled');
+title('Circular Convolution Result y[n] = x[n] ⊛ h[n]');
+xlabel('n');
+ylabel('y[n]');
+axis([min(n_y)-0.5, max(n_y)+0.5, min(y)-1, max(y)+5]);
+inresult = cconv(x, h, n3);
+subplot(4, 1, 4);
+stem(n_y, inresult, 'filled');
+title('Circular Convolution using Inbuilt Function');
+xlabel('n');
+ylabel('y[n]');
+axis([min(n_y)-0.5, max(n_y)+0.5, min(inresult)-1, max(inresult)+5]);
